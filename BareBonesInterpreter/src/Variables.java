@@ -3,9 +3,9 @@ import java.util.Map;
 
 public final class Variables {
 
-    private final Map<String, Integer> integerVariables = new HashMap<String, Integer>();
+    private static final Map<String, Integer> integerVariables = new HashMap<String, Integer>();
 
-    public int getInt(String name){
+    public static int getInt(String name){
         // If the variables haven't been defined yet, we tread this request as a definition statement
         if (!integerVariables.containsKey(name)){
             integerVariables.put(name, 0);
@@ -13,7 +13,7 @@ public final class Variables {
         return integerVariables.get(name);
     }
 
-    public void setInt(String name, int value){
+    public static void setInt(String name, int value){
         if (integerVariables.containsKey(name)){
             integerVariables.replace(name, value);
         }
@@ -22,7 +22,7 @@ public final class Variables {
         }
     }
 
-    public void changeIntBy(String name, int amount){
+    public static void changeIntBy(String name, int amount){
         if (integerVariables.containsKey(name)){
             integerVariables.replace(name, integerVariables.get(name) + amount);
         }
@@ -32,7 +32,7 @@ public final class Variables {
         }
     }
 
-    public String generateLog(){
+    public static String generateLog(){
         StringBuilder stringBuilder = new StringBuilder();
         for (String key: integerVariables.keySet()) {
             stringBuilder.append(key).append(" : ").append(integerVariables.get(key)).append("\n");
