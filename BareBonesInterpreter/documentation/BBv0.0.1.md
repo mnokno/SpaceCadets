@@ -33,7 +33,7 @@ Comparison operators can be used to compare two operands against each other retu
 
 ### Format
 All comparisons follow this format
-<operandA> <comparionsOperator> <operandb>
+operandA comparisonsOperator operandB
 
 ### Available comparison operators
 not | !=  
@@ -66,7 +66,7 @@ While loop will execute code in their scope while the comparison condition evalu
 NOTE: variables defined in a loop scope will still be saved in the global scope NOT the local loop scope!
 
 ### Structure
-while <operandA> <comparionsOperator> <operandb> do;  
+while operandA comparisonsOperator operandB do;  
 ...  
 ...  
 ...  
