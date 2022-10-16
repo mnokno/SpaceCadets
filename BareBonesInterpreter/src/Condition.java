@@ -1,15 +1,32 @@
+/**
+ * Condition is used to preform comparison for control structures.
+ * <p>
+ * NOTE: The current version of the interpreter only support integers
+ * hence the Condition can only be used directly withing the control structure.
+ */
 public class Condition {
 
     private final String rightOperand;
     private final String leftOperand;
     private final ComparisonOperator comparisonOperator;
 
-    public Condition(String rightOperand, String leftOperand, ComparisonOperator comparisonOperator){
-        this.rightOperand = rightOperand;
+    /**
+     * Creates a condition that will use the specified operator to on operands to
+     * make decision for control structures.
+     * @param leftOperand Value on the left of the equation (comparison)
+     * @param rightOperand Value on the right of the equation (comparison)
+     * @param comparisonOperator Operation that will be used to compare the operands
+     */
+    public Condition(String leftOperand, String rightOperand, ComparisonOperator comparisonOperator){
         this.leftOperand = leftOperand;
+        this.rightOperand = rightOperand;
         this.comparisonOperator = comparisonOperator;
     }
 
+    /**
+     * Compares the rightOperand against leftOperand used the specified (at initialization) ComparisonOperator
+     * @return returns result of this comparison
+     */
     public boolean evaluate(){
         return switch (comparisonOperator){
             case equal -> Variables.getInt(leftOperand) == Variables.getInt(rightOperand);

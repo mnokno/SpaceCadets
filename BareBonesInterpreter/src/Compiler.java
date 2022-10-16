@@ -1,11 +1,22 @@
-import java.awt.desktop.SystemEventListener;
 import java.util.ArrayList;
 
+/**
+ * Compile is a static class that can be used to compile code
+ * from a file to an Executable object that can be used to
+ * execute the program.
+ * <p>
+ * NOTE: The Compiler will simply crash if the syntax is invalid
+ */
 public final class Compiler {
 
     private static int currentLine;
     private static String[] lines;
 
+    /**
+     * @param lines Array of the lines of code in chronological order.
+     * @return Returns an Executable object that can can be used to execute teh passed program.
+     * @throws Exception Throws an exception is the completer encounter any invalid syntax.
+     */
     public static Executable compile(String[] lines) throws Exception {
         Compiler.lines = lines;
         flattenLines();
@@ -13,6 +24,11 @@ public final class Compiler {
         return new Executable(compileScope());
     }
 
+    /**
+     * Used be "compile" method to handle nested scope
+     * @return Returns the complied scope.
+     * @throws Exception Throws an exception if encounters invalid syntax.
+     */
     private static Scope compileScope() throws Exception {
         ArrayList<Command> scopeCommands = new ArrayList<Command>();
 
@@ -35,6 +51,10 @@ public final class Compiler {
         return new Scope(scopeCommands.toArray(new Command[0]));
     }
 
+    /**
+     * Flatten the array of line, removing all from beginning of lines
+     * and replaces any duplicated spaces with single spaces.
+     */
     private static void flattenLines(){
         for (int i = 0; i < lines.length; i++){
             while (lines[i].contains("  ")){
@@ -46,6 +66,12 @@ public final class Compiler {
         }
     }
 
+    /**
+     * Converts the passed String to ComparisonOperator.
+     * @param operatorAsString String to be parsed to ComparisonOperator.
+     * @return Return ComparisonOperator represented by the passed string.
+     * @throws Exception Throws an exception if the passed string was not a valid ComparisonOperator.
+     */
     private static ComparisonOperator convertToComparisonOperator(String operatorAsString) throws Exception {
         return switch (operatorAsString){
             case "not", "!=" -> ComparisonOperator.notEqual;
