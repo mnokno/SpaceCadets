@@ -2,16 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="43d89842-c48b-426a-9961-9c94c88da09f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/BasicAction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/BasicCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ComparisonOperator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/uml.svg" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/uml.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Condition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Condition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Executable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Executable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RunTimeDecoder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Simple.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Variables.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Variables.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +54,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1665925310719</updated>
-      <workItem from="1665929466294" duration="3542000" />
+      <workItem from="1665929466294" duration="4761000" />
     </task>
     <servers />
   </component>
