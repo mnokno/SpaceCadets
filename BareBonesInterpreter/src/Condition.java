@@ -11,7 +11,13 @@ public class Condition {
     }
 
     public boolean evaluate(){
-        // TODO
-        return false;
+        return switch (comparisonOperator){
+            case equal -> Variables.getInt(leftOperand) == Variables.getInt(rightOperand);
+            case notEqual -> Variables.getInt(leftOperand) != Variables.getInt(rightOperand);
+            case greater -> Variables.getInt(leftOperand) > Variables.getInt(rightOperand);
+            case greaterOrEqual -> Variables.getInt(leftOperand) >= Variables.getInt(rightOperand);
+            case less -> Variables.getInt(leftOperand) < Variables.getInt(rightOperand);
+            case lessOrEqual -> Variables.getInt(leftOperand) <= Variables.getInt(rightOperand);
+        };
     }
 }
