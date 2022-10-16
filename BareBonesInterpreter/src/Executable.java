@@ -6,7 +6,11 @@ public class Executable {
         this.mainScope = mainScope;
     }
 
-    public void execute(){
+    public void execute() throws Exception {
         mainScope.execute();
+    }
+
+    public String getLog(){
+        return Variables.generateLog();
     }
 }

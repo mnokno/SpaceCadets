@@ -9,7 +9,7 @@ public class WhileLoop extends Command {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception {
         while (condition.evaluate()){
             loopScope.execute();
         }

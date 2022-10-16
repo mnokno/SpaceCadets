@@ -7,7 +7,7 @@ public class Scope extends Command {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception {
         for (Command command: commands) {
             command.execute();
         }

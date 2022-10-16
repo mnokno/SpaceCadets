@@ -4,9 +4,10 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
 
-        String fileName = "case1.bb";
+        // reads code from file
+        String fileName = "case2.bb";
         StringBuilder stringBuilder = new StringBuilder();
         BufferedReader bufferedReader = new BufferedReader(new FileReader("data/" + fileName));
         String line;
@@ -14,9 +15,16 @@ public class Main {
             stringBuilder.append(line);
         }
 
+        // creates executable
         Executable executable = Compiler.compile(
                 stringBuilder.toString().
                         replaceAll("\n", "").
                         split(";"));
+
+        // executes the code
+        executable.execute();
+
+        // prints variables states after execution
+        System.out.println(executable.getLog());
     }
 }
