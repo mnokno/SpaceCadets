@@ -9,7 +9,7 @@ public class BasicCommand extends Command {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception {
         switch (basicAction){
             case clear -> Variables.setInt(operand, 0);
             case incr -> Variables.changeIntBy(operand, 1);
