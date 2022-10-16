@@ -1,31 +1,42 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class Variables {
+public final class Variables {
 
-    private final Map<String, Integer> integerVariables;
-    private final Variables parentVariables;
-
-    public Variables(Variables parentVariables){
-        this.parentVariables = parentVariables;
-        this.integerVariables = new HashMap<String, Integer>();
-    }
+    private final Map<String, Integer> integerVariables = new HashMap<String, Integer>();
 
     public int getInt(String name){
-        //TODO
-        return 0;
+        // If the variables haven't been defined yet, we tread this request as a definition statement
+        if (!integerVariables.containsKey(name)){
+            integerVariables.put(name, 0);
+        }
+        return integerVariables.get(name);
     }
 
-    public void setInt(String name){
-        // TODO
+    public void setInt(String name, int value){
+        if (integerVariables.containsKey(name)){
+            integerVariables.replace(name, value);
+        }
+        else{
+            integerVariables.put(name, value);
+        }
     }
 
     public void changeIntBy(String name, int amount){
-        // TODO
+        if (integerVariables.containsKey(name)){
+            integerVariables.replace(name, integerVariables.get(name) + amount);
+        }
+        else{
+            // this is because if the variable does not exist yet, we initialize it with 0 then add amount
+            integerVariables.put(name, amount);
+        }
     }
 
     public String generateLog(){
-        // TODO
-        return null;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String key: integerVariables.keySet()) {
+            stringBuilder.append(key).append(" : ").append(integerVariables.get(key)).append("\n");
+        }
+        return stringBuilder.toString();
     }
 }
