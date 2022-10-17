@@ -2,25 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="43d89842-c48b-426a-9961-9c94c88da09f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/BoneWithFleshInterpreter.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/documentation/BBv0.0.1.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/documentation/uml.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/src/BasicAction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/src/BasicCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/src/Command.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/src/ComparisonOperator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/src/Compiler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/src/Condition.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/src/Executable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/src/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/src/Scope.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/src/Variables.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/src/WhileLoop.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BoneWithFleshInterpreter/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BoneWithFleshInterpreter/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +76,7 @@
       <workItem from="1665957740920" duration="369000" />
       <workItem from="1666001109342" duration="24000" />
       <workItem from="1666001365060" duration="635000" />
-      <workItem from="1666005967829" duration="312000" />
+      <workItem from="1666005967829" duration="844000" />
     </task>
     <servers />
   </component>
