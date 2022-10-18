@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Compile is a static class that can be used to compile code
@@ -9,6 +10,7 @@ import java.util.ArrayList;
  */
 public final class Compiler {
 
+    private static final String[] arithmeticOperators = new String[] {"+", "-", "*", "/", "%"};
     private static int currentLine;
     private static String[] lines;
 
@@ -35,15 +37,21 @@ public final class Compiler {
         while (currentLine < lines.length && !lines[currentLine].equals("end")){
             String[] parts = lines[currentLine].split(" ");
             currentLine++;
-            switch (parts[0]) {
-                case "clear" -> scopeCommands.add(new BasicCommand(BasicAction.clear, parts[1]));
-                case "incr" -> scopeCommands.add(new BasicCommand(BasicAction.incr, parts[1]));
-                case "decr" -> scopeCommands.add(new BasicCommand(BasicAction.decr, parts[1]));
-                case "while" -> scopeCommands.add(
-                        new WhileLoop(
-                                new ComparisonCondition(parts[1], parts[3], convertToComparisonOperator(parts[2])),
-                                compileScope()
-                        ));
+            if (parts.length == 5 && Arrays.asList(arithmeticOperators).contains(parts[3])){
+                scopeCommands.add(new ArithmeticCommand(convertToArithmeticOperator(parts[3]),
+                        parts[0], parts[2], parts[4]));
+            }
+            else{
+                switch (parts[0]) {
+                    case "clear" -> scopeCommands.add(new BasicCommand(BasicAction.clear, parts[1]));
+                    case "incr" -> scopeCommands.add(new BasicCommand(BasicAction.incr, parts[1]));
+                    case "decr" -> scopeCommands.add(new BasicCommand(BasicAction.decr, parts[1]));
+                    case "while" -> scopeCommands.add(
+                            new WhileLoop(
+                                    new ComparisonCondition(parts[1], parts[3], convertToComparisonOperator(parts[2])),
+                                    compileScope()
+                            ));
+                }
             }
         }
         currentLine++;
@@ -81,6 +89,23 @@ public final class Compiler {
             case "less", "<" -> ComparisonOperator.less;
             case "lessOrEqual", "<=" -> ComparisonOperator.lessOrEqual;
             default -> throw new Exception(operatorAsString + " is not a valid comparison operation!");
+        };
+    }
+
+    /**
+     * Converts the passed String to ArithmeticOperator.
+     * @param operatorAsString String to be parsed to ArithmeticOperator.
+     * @return Return ArithmeticOperator represented by the passed string.
+     * @throws Exception Throws an exception if the passed string was not a valid ArithmeticOperator.
+     */
+    private static ArithmeticOperator convertToArithmeticOperator(String operatorAsString) throws Exception {
+        return switch (operatorAsString){
+            case "+" -> ArithmeticOperator.add;
+            case "-" -> ArithmeticOperator.sub;
+            case "*" -> ArithmeticOperator.mul;
+            case "/" -> ArithmeticOperator.div;
+            case "%" -> ArithmeticOperator.mod;
+            default -> throw new Exception(operatorAsString + " is not a valid arithmetic operation!");
         };
     }
 }
