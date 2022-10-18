@@ -41,7 +41,7 @@ public final class Compiler {
                 case "decr" -> scopeCommands.add(new BasicCommand(BasicAction.decr, parts[1]));
                 case "while" -> scopeCommands.add(
                         new WhileLoop(
-                                new Condition(parts[1], parts[3], convertToComparisonOperator(parts[2])),
+                                new ComparisonCondition(parts[1], parts[3], convertToComparisonOperator(parts[2])),
                                 compileScope()
                         ));
             }

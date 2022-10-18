@@ -62,7 +62,7 @@ a != 2 | a not 2 --- evaluates to false
 ## Control structures
 ### While loops
 ### About
-While loop will execute code in their scope while the comparison condition evaluates to true.
+While loop will execute code in their scope while the comparison comparisonCondition evaluates to true.
 NOTE: variables defined in a loop scope will still be saved in the global scope NOT the local loop scope!
 
 ### Structure

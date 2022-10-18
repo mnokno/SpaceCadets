@@ -1,10 +1,10 @@
 /**
- * Condition is used to preform comparison for control structures.
+ * ComparisonCondition is used to preform comparison for control structures.
  * <p>
  * NOTE: The current version of the interpreter only support integers
- * hence the Condition can only be used directly withing the control structure.
+ * hence the ComparisonCondition can only be used directly withing the control structure.
  */
-public class Condition {
+public class ComparisonCondition {
 
     private final String rightOperand;
     private final String leftOperand;
@@ -17,7 +17,7 @@ public class Condition {
      * @param rightOperand Value on the right of the equation (comparison)
      * @param comparisonOperator Operation that will be used to compare the operands
      */
-    public Condition(String leftOperand, String rightOperand, ComparisonOperator comparisonOperator){
+    public ComparisonCondition(String leftOperand, String rightOperand, ComparisonOperator comparisonOperator){
         this.leftOperand = leftOperand;
         this.rightOperand = rightOperand;
         this.comparisonOperator = comparisonOperator;
