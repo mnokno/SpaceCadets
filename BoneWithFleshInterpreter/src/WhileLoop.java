@@ -4,17 +4,17 @@
  */
 public class WhileLoop extends Command {
 
-    private final ComparisonCondition comparisonCondition;
+    private final Condition condition;
     private final Scope loopScope;
 
     /**
      * WhileLoop is a control structure that will execute its scope as long as its.
      * comparisonCondition evaluates to true. The comparisonCondition is evaluated before starting each new iteration.
-     * @param comparisonCondition ComparisonCondition that will be evaluated before each new iteration.
+     * @param condition Condition that will be evaluated before each new iteration.
      * @param loopScope Scope that will be executed during each iteration.
      */
-    public WhileLoop(ComparisonCondition comparisonCondition, Scope loopScope){
-        this.comparisonCondition = comparisonCondition;
+    public WhileLoop(Condition condition, Scope loopScope){
+        this.condition = condition;
         this.loopScope = loopScope;
     }
 
@@ -24,7 +24,7 @@ public class WhileLoop extends Command {
      */
     @Override
     public void execute() throws Exception {
-        while (comparisonCondition.evaluate()){
+        while (condition.evaluate()){
             loopScope.execute();
         }
     }

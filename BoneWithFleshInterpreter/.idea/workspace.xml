@@ -2,12 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ad44d71b-e4b5-48dd-a554-ff3dd273887d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Condition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/StaticCondition.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/uml.svg" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/uml.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BasicCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BasicCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ComparisonCondition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ComparisonCondition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/WhileLoop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/WhileLoop.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -57,7 +72,7 @@
       <updated>1666006218761</updated>
       <workItem from="1666006220047" duration="1453000" />
       <workItem from="1666087660381" duration="78000" />
-      <workItem from="1666100236045" duration="456000" />
+      <workItem from="1666100236045" duration="1790000" />
     </task>
     <servers />
   </component>

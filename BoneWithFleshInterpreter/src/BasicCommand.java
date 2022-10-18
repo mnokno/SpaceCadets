@@ -34,9 +34,5 @@ public class BasicCommand extends Command {
             case incr -> Variables.changeIntBy(operand, 1);
             case decr -> Variables.changeIntBy(operand, -1);
         }
-        //TODO Reminder where the log statements are.
-        System.out.println("--------------------------------------");
-        System.out.println(Variables.generateLog());
-        System.out.println("--------------------------------------");
     }
 }

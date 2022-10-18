@@ -4,7 +4,7 @@
  * NOTE: The current version of the interpreter only support integers
  * hence the ComparisonCondition can only be used directly withing the control structure.
  */
-public class ComparisonCondition {
+public class ComparisonCondition extends Condition {
 
     private final String rightOperand;
     private final String leftOperand;
@@ -27,6 +27,7 @@ public class ComparisonCondition {
      * Compares the rightOperand against leftOperand used the specified (at initialization) ComparisonOperator
      * @return returns result of this comparison
      */
+    @Override
     public boolean evaluate(){
         return switch (comparisonOperator){
             case equal -> Variables.getInt(leftOperand) == Variables.getInt(rightOperand);
