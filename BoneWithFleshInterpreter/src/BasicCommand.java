@@ -4,7 +4,7 @@
  * <p>
  * NOTE: the operand has to be a variable (direct addressing)
  */
-public class BasicCommand extends Command {
+public class BasicCommand extends Callable {
 
     private final BasicAction basicAction;
     private final String operand;

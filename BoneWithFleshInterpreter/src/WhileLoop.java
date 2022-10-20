@@ -2,7 +2,7 @@
  * WhileLoop is a control structure that will execute its scope as long as its
  * comparisonCondition evaluates to true. The comparisonCondition is evaluated before starting each new iteration.
  */
-public class WhileLoop extends Command {
+public class WhileLoop extends Callable {
 
     private final Condition condition;
     private final Scope loopScope;

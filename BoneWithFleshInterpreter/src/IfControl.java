@@ -4,7 +4,7 @@
  * IfControl that is evaluated if the current one fails creating an if-else control.
  * IfControl with static true condition can be used to creat an else control black.
  */
-public class IfControl extends Command {
+public class IfControl extends Callable {
 
     private final Condition condition;
     private final Scope scope;

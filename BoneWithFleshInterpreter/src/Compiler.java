@@ -34,7 +34,7 @@ public final class Compiler {
      * @throws Exception Throws an exception if encounters invalid syntax.
      */
     private static Scope compileScope() throws Exception {
-        ArrayList<Command> scopeCommands = new ArrayList<Command>();
+        ArrayList<Callable> scopeCallables = new ArrayList<Callable>();
 
         while (currentLine < lines.length &&
                 !lines[currentLine].equals("end")){
@@ -43,15 +43,15 @@ public final class Compiler {
             currentLine++;
 
             if (parts.length == 5 && Arrays.asList(arithmeticOperators).contains(parts[3])){
-                scopeCommands.add(new ArithmeticCommand(convertToArithmeticOperator(parts[3]),
+                scopeCallables.add(new ArithmeticCommand(convertToArithmeticOperator(parts[3]),
                         parts[0], parts[2], parts[4]));
             }
             else{
                 switch (parts[0]) {
-                    case "clear" -> scopeCommands.add(new BasicCommand(BasicAction.clear, parts[1]));
-                    case "incr" -> scopeCommands.add(new BasicCommand(BasicAction.incr, parts[1]));
-                    case "decr" -> scopeCommands.add(new BasicCommand(BasicAction.decr, parts[1]));
-                    case "while" -> scopeCommands.add(
+                    case "clear" -> scopeCallables.add(new BasicCommand(BasicAction.clear, parts[1]));
+                    case "incr" -> scopeCallables.add(new BasicCommand(BasicAction.incr, parts[1]));
+                    case "decr" -> scopeCallables.add(new BasicCommand(BasicAction.decr, parts[1]));
+                    case "while" -> scopeCallables.add(
                             new WhileLoop(
                                     new ComparisonCondition(parts[1], parts[3], convertToComparisonOperator(parts[2])),
                                     compileScope()
@@ -61,7 +61,7 @@ public final class Compiler {
                         IfControl current = new IfControl(
                                 new ComparisonCondition(parts[1], parts[3], convertToComparisonOperator(parts[2])),
                                 compileScope());
-                        scopeCommands.add(current);
+                        scopeCallables.add(current);
                         if (ifControl != null) {
                             current.setElseCase(ifControl);
                         }
@@ -89,7 +89,7 @@ public final class Compiler {
         }
         currentLine++;
 
-        return new Scope(scopeCommands.toArray(new Command[0]));
+        return new Scope(scopeCallables.toArray(new Callable[0]));
     }
 
     /**

@@ -1,7 +1,7 @@
 /**
  * ArithmeticCommand cam be used to preform arithmetic operation on operands
  */
-public class ArithmeticCommand extends Command{
+public class ArithmeticCommand extends Callable {
 
     private final ArithmeticOperator arithmeticOperator;
     private final String operandSave;

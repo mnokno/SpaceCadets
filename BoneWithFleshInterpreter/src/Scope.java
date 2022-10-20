@@ -4,17 +4,17 @@
  * In this version there is only one global variable scope,
  * hence we don't need to a Variables instance in this class.
  */
-public class Scope extends Command {
+public class Scope extends Callable {
 
-    private final Command[] commands;
+    private final Callable[] callables;
 
     /**
      * Creates a new scope object with the passed command, this version of the
      * interpreter does not support scope variable hence no Variables parameter.
-     * @param commands List of commands for this scope in chronology order.
+     * @param callables List of callables for this scope in chronology order.
      */
-    public Scope(Command[] commands){
-        this.commands = commands;
+    public Scope(Callable[] callables){
+        this.callables = callables;
     }
 
     /**
@@ -23,8 +23,8 @@ public class Scope extends Command {
      */
     @Override
     public void execute() throws Exception {
-        for (Command command: commands) {
-            command.execute();
+        for (Callable callable : callables) {
+            callable.execute();
         }
     }
 }

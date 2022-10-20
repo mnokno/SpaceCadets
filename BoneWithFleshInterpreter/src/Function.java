@@ -5,7 +5,7 @@ import java.util.Map;
  * Function can be used to define function with no parameters (in this version of the language).
  * Once a function is defined it can be used anywhere from the code to execute its body.
  */
-public class Function extends Command {
+public class Function extends Callable {
 
     private static final Map<String, Function> definedFunctions = new HashMap<String, Function>();
     private final Scope functionBody;
