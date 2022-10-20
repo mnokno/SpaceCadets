@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         // reads code from file
-        String fileName = "case6.bb";
+        String fileName = "case7.bb";
         StringBuilder stringBuilder = new StringBuilder();
         BufferedReader bufferedReader = new BufferedReader(new FileReader("data/" + fileName));
         String line;

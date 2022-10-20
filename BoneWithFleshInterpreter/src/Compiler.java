@@ -11,6 +11,7 @@ import java.util.Arrays;
 public final class Compiler {
 
     private static final String[] arithmeticOperators = new String[] {"+", "-", "*", "/", "%"};
+    private static final String[] buildInFunction = new String[] {"log", "input"};
     private static int currentLine;
     private static String[] lines;
     private static IfControl ifControl;
@@ -86,6 +87,12 @@ public final class Compiler {
             if (parts.length == 5 && Arrays.asList(arithmeticOperators).contains(parts[3])){
                 scopeCallables.add(new ArithmeticCommand(convertToArithmeticOperator(parts[3]),
                         parts[0], parts[2], parts[4]));
+            }
+            else if (Arrays.asList(buildInFunction).contains(parts[0])){
+                switch (parts[0]){
+                    case "log" -> scopeCallables.add(new Log(parts[1]));
+                    case "input" -> scopeCallables.add(new Input(parts[1]));
+                }
             }
             else if (parts.length == 1){
                 scopeCallables.add(Function.getFunction(parts[0]));
