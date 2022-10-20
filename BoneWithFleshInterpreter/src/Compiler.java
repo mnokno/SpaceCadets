@@ -39,6 +39,10 @@ public final class Compiler {
         while (currentLine < lines.length &&
                 !lines[currentLine].equals("end")){
 
+            if (lines[currentLine].toCharArray()[0] == '#'){
+                currentLine++;
+                continue;
+            }
             String[] parts = lines[currentLine].split(" ");
             currentLine++;
 
