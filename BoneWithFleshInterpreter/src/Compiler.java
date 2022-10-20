@@ -13,6 +13,7 @@ public final class Compiler {
     private static final String[] arithmeticOperators = new String[] {"+", "-", "*", "/", "%"};
     private static int currentLine;
     private static String[] lines;
+    private static IfControl ifControl;
 
     /**
      * @param lines Array of the lines of code in chronological order.
@@ -23,6 +24,7 @@ public final class Compiler {
         Compiler.lines = lines;
         flattenLines();
         Compiler.currentLine = 0;
+        Compiler.ifControl = null;
         return new Executable(compileScope());
     }
 
@@ -34,9 +36,12 @@ public final class Compiler {
     private static Scope compileScope() throws Exception {
         ArrayList<Command> scopeCommands = new ArrayList<Command>();
 
-        while (currentLine < lines.length && !lines[currentLine].equals("end")){
+        while (currentLine < lines.length &&
+                !lines[currentLine].equals("end")){
+
             String[] parts = lines[currentLine].split(" ");
             currentLine++;
+
             if (parts.length == 5 && Arrays.asList(arithmeticOperators).contains(parts[3])){
                 scopeCommands.add(new ArithmeticCommand(convertToArithmeticOperator(parts[3]),
                         parts[0], parts[2], parts[4]));
@@ -51,6 +56,34 @@ public final class Compiler {
                                     new ComparisonCondition(parts[1], parts[3], convertToComparisonOperator(parts[2])),
                                     compileScope()
                             ));
+                    case "if" -> {
+                        Compiler.ifControl = null;
+                        IfControl current = new IfControl(
+                                new ComparisonCondition(parts[1], parts[3], convertToComparisonOperator(parts[2])),
+                                compileScope());
+                        scopeCommands.add(current);
+                        if (ifControl != null) {
+                            current.setElseCase(ifControl);
+                        }
+                    }
+                    case "elseif" -> {
+                        Compiler.ifControl = null;
+                        IfControl current = new IfControl(
+                                new ComparisonCondition(parts[1], parts[3], convertToComparisonOperator(parts[2])),
+                                compileScope());
+                        if (ifControl != null) {
+                            current.setElseCase(ifControl);
+                        }
+                        ifControl = current;
+                        currentLine--;
+                    }
+                    case "else" -> {
+                        Compiler.ifControl = null;
+                        ifControl = new IfControl(
+                                new StaticCondition(true),
+                                compileScope());
+                        currentLine--;
+                    }
                 }
             }
         }

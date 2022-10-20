@@ -1,0 +1,10 @@
+a = 0 + 32;
+while b == 0 do;
+    if a != 0 do;
+        a = a - 1;
+    end;
+    if a == 0 do;
+        decr b;
+    end;
+end;
+incr c;

@@ -25,6 +25,7 @@ public class WhileLoop extends Command {
     @Override
     public void execute() throws Exception {
         while (condition.evaluate()){
+            //System.out.println("EXECUTING LOOP SCOPE");
             loopScope.execute();
         }
     }
