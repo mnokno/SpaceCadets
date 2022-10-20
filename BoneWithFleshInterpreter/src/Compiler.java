@@ -16,12 +16,12 @@ public final class Compiler {
     private static IfControl ifControl;
 
     /**
-     * @param lines Array of the lines of code in chronological order.
+     * @param code String conditioning code to be complied.
      * @return Returns an Executable object that can can be used to execute teh passed program.
      * @throws Exception Throws an exception is the completer encounter any invalid syntax.
      */
-    public static Executable compile(String[] lines) throws Exception {
-        Compiler.lines = lines;
+    public static Executable compile(String code) throws Exception {
+        Compiler.lines = code.replaceAll("\n", "").split(";");
         flattenLines();
         removeNonCodeLines();
         Compiler.currentLine = 0;
@@ -152,7 +152,7 @@ public final class Compiler {
     }
 
     /**
-     * Removes non code lines, comment line, empty lines, lines with only spcaes.
+     * Removes non code lines, comment line, empty lines, lines with only spaces.
      */
     private static void removeNonCodeLines(){
         ArrayList<String> newLines = new ArrayList<String>();

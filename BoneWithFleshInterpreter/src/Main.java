@@ -16,10 +16,7 @@ public class Main {
         }
 
         // creates executable
-        Executable executable = Compiler.compile(
-                stringBuilder.toString().
-                        replaceAll("\n", "").
-                        split(";"));
+        Executable executable = Compiler.compile(stringBuilder.toString());
 
         // executes the code
         executable.execute();

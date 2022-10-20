@@ -1,7 +1,7 @@
 # Defines function A;
 function funA do;
     a = a + 1;
-    b = a + 1;
+    b = a + 2;
 end;
 
 # Runs a loop that will execute funA and funB 10 times;
