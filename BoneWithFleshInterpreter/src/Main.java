@@ -20,8 +20,5 @@ public class Main {
 
         // executes the code
         executable.execute();
-
-        // prints variables states after execution
-        System.out.println(executable.getLog());
     }
 }

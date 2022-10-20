@@ -22,6 +22,7 @@ public final class Compiler {
      * @throws Exception Throws an exception is the completer encounter any invalid syntax.
      */
     public static Executable compile(String code) throws Exception {
+        code = removeComments(code);
         Compiler.lines = code.replaceAll("\n", "").split(";");
         flattenLines();
         removeNonCodeLines();
@@ -165,13 +166,28 @@ public final class Compiler {
         ArrayList<String> newLines = new ArrayList<String>();
         for (String line: lines) {
             if (!line.equals(" ") && !line.isEmpty()){
-                if (line.toCharArray()[0] != '#'){
-                    newLines.add(line);
-                }
+                // Comments where removed earlier
+                newLines.add(line);
             }
         }
         lines = newLines.toArray(new String[0]);
     }
+
+    /**
+     * Removes comments from the given code.
+     * @param code Code from which the comments will be removed.
+     * @return Returns code with comment removed
+     */
+    private static String removeComments(String code){
+        ArrayList<String> newLines = new ArrayList<String>();
+        for (String line: code.split("\n")){
+            if (line.toCharArray()[0] != '#'){
+                newLines.add(line);
+            }
+        }
+        return String.join("\n", newLines);
+    }
+
     /**
      * Converts the passed String to ComparisonOperator.
      * @param operatorAsString String to be parsed to ComparisonOperator.
