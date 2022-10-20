@@ -27,11 +27,9 @@ public final class Compiler {
         flattenLines();
         removeNonCodeLines();
         Compiler.currentLine = 0;
-        Compiler.ifControl = null;
         compileFunctions();
         removeFunctionsFromCode();
         Compiler.currentLine = 0;
-
         return new Executable(compileScope());
     }
 
@@ -181,11 +179,13 @@ public final class Compiler {
     private static String removeComments(String code){
         ArrayList<String> newLines = new ArrayList<String>();
         for (String line: code.split("\n")){
-            if (line.toCharArray()[0] != '#'){
-                newLines.add(line);
+            if (line.length() > 0) {
+                if (line.toCharArray()[0] != '#'){
+                    newLines.add(line);
+                }
             }
         }
-        return String.join("\n", newLines);
+        return String.join("", newLines);
     }
 
     /**

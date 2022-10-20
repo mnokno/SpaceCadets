@@ -10,7 +10,7 @@ public class Main {
         BufferedReader bufferedReader = new BufferedReader(new FileReader("data/" + fileName));
         String line;
         while ((line = bufferedReader.readLine()) != null) {
-            stringBuilder.append(line);
+            stringBuilder.append(line).append("\n");
         }
 
         // creates executable
