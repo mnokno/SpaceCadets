@@ -23,9 +23,50 @@ public final class Compiler {
     public static Executable compile(String[] lines) throws Exception {
         Compiler.lines = lines;
         flattenLines();
+        removeNonCodeLines();
         Compiler.currentLine = 0;
         Compiler.ifControl = null;
+        compileFunctions();
+        removeFunctionsFromCode();
+        Compiler.currentLine = 0;
+
         return new Executable(compileScope());
+    }
+
+    /**
+     * Compiles all function found if the code, they can be later referred by colling their names.
+     * @throws Exception Throws an exception if encounters invalid syntax.
+     */
+    private static void compileFunctions() throws Exception {
+        while (currentLine < lines.length){
+            while (currentLine < lines.length && !lines[currentLine].split(" ")[0].equals("function")){
+                currentLine++;
+            }
+            if (currentLine < lines.length){
+                String functionName = lines[currentLine].split(" ")[1];
+                currentLine++;
+                new Function(functionName, compileScope());
+            }
+        }
+    }
+
+    /**
+     * Removes lines that are definition or bodies of a function
+     */
+    private static void removeFunctionsFromCode(){
+        currentLine = 0;
+        ArrayList<String> newLines = new ArrayList<String>();
+        while (currentLine < lines.length){
+            while (currentLine < lines.length && !lines[currentLine].split(" ")[0].equals("function")){
+                newLines.add(lines[currentLine]);
+                currentLine++;
+            }
+            while (currentLine < lines.length && !lines[currentLine].split(" ")[0].equals("end")){
+                currentLine++;
+            }
+            currentLine++;
+        }
+        lines = newLines.toArray(new String[0]);
     }
 
     /**
@@ -39,16 +80,15 @@ public final class Compiler {
         while (currentLine < lines.length &&
                 !lines[currentLine].equals("end")){
 
-            if (lines[currentLine].toCharArray()[0] == '#'){
-                currentLine++;
-                continue;
-            }
             String[] parts = lines[currentLine].split(" ");
             currentLine++;
 
             if (parts.length == 5 && Arrays.asList(arithmeticOperators).contains(parts[3])){
                 scopeCallables.add(new ArithmeticCommand(convertToArithmeticOperator(parts[3]),
                         parts[0], parts[2], parts[4]));
+            }
+            else if (parts.length == 1){
+                scopeCallables.add(Function.getFunction(parts[0]));
             }
             else{
                 switch (parts[0]) {
@@ -111,6 +151,20 @@ public final class Compiler {
         }
     }
 
+    /**
+     * Removes non code lines, comment line, empty lines, lines with only spcaes.
+     */
+    private static void removeNonCodeLines(){
+        ArrayList<String> newLines = new ArrayList<String>();
+        for (String line: lines) {
+            if (!line.equals(" ") && !line.isEmpty()){
+                if (line.toCharArray()[0] != '#'){
+                    newLines.add(line);
+                }
+            }
+        }
+        lines = newLines.toArray(new String[0]);
+    }
     /**
      * Converts the passed String to ComparisonOperator.
      * @param operatorAsString String to be parsed to ComparisonOperator.

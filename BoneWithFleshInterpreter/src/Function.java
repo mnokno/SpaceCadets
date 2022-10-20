@@ -44,8 +44,15 @@ public class Function extends Callable {
             return definedFunctions.get(name);
         }
         else{
-            throw new Exception("Function named: " + name + " has never been defined");
+            throw new Exception("Function named: '" + name + "' has never been defined");
         }
+    }
 
+    /**
+     * Generates a log containing names of all defined functions.
+     * @return Returns a log as a string.
+     */
+    public static String generateLog(){
+        return String.join("\n", definedFunctions.keySet());
     }
 }
