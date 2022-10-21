@@ -2,6 +2,16 @@
 log "num_of_primes_to_find:";
 input num_of_primes_to_find;
 
+# check if the user input is valid, if not we ask the user again
+while num_of_primes_to_find < 1 do;
+    log "invalid_input";
+    log "pleas_enter_a_new_number:";
+    input num_of_primes_to_find;
+end;
+
+# logs a message to separate user input from results
+log "this_are_the_first_n_prime_number";
+
 # defines variable used in the loop (for clarity)
 clear found_primes;
 current_number = 2 + 0;

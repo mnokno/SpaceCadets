@@ -10,6 +10,14 @@ while loopCounter > 0 do;
     funA;
     funB;
     decr loopCounter;
+
+    log "--------------";
+    log a;
+    log b;
+    log c;
+    log d;
+    log loopCounter;
+    log "--------------";
 end;
 
 # Defines function B;
@@ -17,3 +25,4 @@ function funB do;
     c = b % a;
     d = c * 10;
 end;
+
