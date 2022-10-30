@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ad44d71b-e4b5-48dd-a554-ff3dd273887d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/data/case9.bb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/case6.bb" beforeDir="false" afterPath="$PROJECT_DIR$/data/case6.bb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/case8.bb" beforeDir="false" afterPath="$PROJECT_DIR$/data/case8.bb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documentation/BBv0.0.1.md" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/BBv0.0.2.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,16 +31,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/kubaa/Documents/GitHub/ProgramingOneLab/lab2&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/kubaa/Documents/GitHub/ProgramingOneLab/lab1"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
@@ -73,7 +69,11 @@
       <workItem from="1666108914677" duration="2386000" />
       <workItem from="1666270822301" duration="10063000" />
       <workItem from="1666281689555" duration="1744000" />
-      <workItem from="1666295882986" duration="6008000" />
+      <workItem from="1666295882986" duration="6038000" />
+      <workItem from="1666456575512" duration="822000" />
+      <workItem from="1666630953651" duration="177000" />
+      <workItem from="1666886335344" duration="406000" />
+      <workItem from="1666911118892" duration="18000" />
     </task>
     <servers />
   </component>
