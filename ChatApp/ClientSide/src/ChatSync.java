@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,12 +28,12 @@ public class ChatSync extends Thread {
                                 System.out.println(newMessage);
                                 localMessages.add(newMessage);
                             }
-                            System.out.println(localMessages.size() + "T");
                         }
                     }
                 }
                 Thread.sleep(100);
             }
+            System.out.println("STOPPED SYNCING!");
         } catch (InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }

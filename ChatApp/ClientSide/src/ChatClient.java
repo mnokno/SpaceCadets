@@ -8,8 +8,7 @@ public class ChatClient {
     private BufferedReader in;
     private boolean isActive;
     private String username;
-    private List<String> localMessages = Collections.synchronizedList(new ArrayList<String>());
-    private final Object lock = new Object();
+    private final List<String> localMessages = Collections.synchronizedList(new ArrayList<String>());
 
     public void setup() throws IOException {
         // creates scanner to read inout from console
@@ -19,19 +18,21 @@ public class ChatClient {
         System.out.println("Enter username:");
         username = sc.nextLine();
 
-        // creates a client
-        ChatClient chatClient = new ChatClient();
         // connects to the serve
-        chatClient.startConnection("127.0.0.1", 9999);
+        startConnection("127.0.0.1", 9999);
+        (new ChatSync(this, localMessages)).start();
+
+        // logs a message that this user joined the chat
+        sendMessageVoid(username + " has joined the chat!");
+
+        // main loop listing for user input
         String message;
         do{
             message = username + ": " + sc.nextLine();
             synchronized (localMessages){
-                System.out.println(localMessages.size());
                 localMessages.add(message);
-                System.out.println(localMessages.size());
             }
-            chatClient.sendMessageVoid(message);
+            sendMessageVoid(message);
         }
         while (!Objects.equals(message, username + ": " + "."));
 
@@ -44,7 +45,6 @@ public class ChatClient {
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         isActive = true;
-        (new ChatSync(this, localMessages)).start();
     }
 
     public String sendMessageAwaitResponse(String msg) throws IOException {
@@ -61,6 +61,7 @@ public class ChatClient {
         in.close();
         out.close();
         clientSocket.close();
+        System.out.println("CLOSED CONNECTION!");
     }
 
     public String getMessagesFromServer() throws IOException {
