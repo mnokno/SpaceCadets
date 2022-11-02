@@ -23,8 +23,9 @@ namespace Spirograph
         private float R;
         private float r;
         private float O;
-        private float P = 1000;
-        private float S = 100;
+        private float P;
+        private float S;
+        private float s;
         private float offset = 180f;
 
         public MainWindow()
@@ -32,18 +33,18 @@ namespace Spirograph
             InitializeComponent();
         }
 
-        public void PaintDot(float x, float y, int size = 1)
+        private void PaintDot(float x, float y, int size = 1)
         {
             Ellipse ellipse = new Ellipse();
             ellipse.Fill = Brushes.Black;
-            ellipse.Width = 1;
-            ellipse.Height = 1;
+            ellipse.Width = s;
+            ellipse.Height = s;
             Canvas.SetTop(ellipse, y + offset);
             Canvas.SetLeft(ellipse, x + offset);
             canvas.Children.Add(ellipse);
         }
 
-        public void PaintSpirographPoint(float R, float r, float O, float t)
+        private void PaintSpirographPoint(float R, float r, float O, float t)
         {
             float x = (R - r) * MathF.Cos(t) + O * MathF.Cos(((R-r)/r)*t);
             float y = (R - r) * MathF.Sin(t) + O * MathF.Sin(((R - r) / r) * t);
@@ -91,6 +92,14 @@ namespace Spirograph
             }
         }
 
+        private void txtBoxs_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (float.TryParse(txtBoxs.Text, out s))
+            {
+                RePaintSpirograph();
+            }
+        }
+
         private void txtBoxP_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (float.TryParse(txtBoxP.Text, out P))
@@ -103,7 +112,5 @@ namespace Spirograph
         {
             offset = (float)canvas.Width / 2f;
         }
-
-
     }
 }
