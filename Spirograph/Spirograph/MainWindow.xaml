@@ -5,25 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Spirograph"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="450">
+        Title="MainWindow" Height="450" Width="550">
     <Grid SizeChanged="Grid_SizeChanged">
-        <Canvas x:Name="canvas" Margin="30,30,30,80" Background="#FF8E8181" Width="{Binding ActualHeight, ElementName=canvas, Mode=OneWay}"/>
+        <Canvas x:Name="canvas" Margin="140,30,36,30" Background="#FF8E8181" Width="{Binding ActualHeight, ElementName=canvas, Mode=OneWay}"/>
 
-        <Grid Margin="38,409,38,0" Width="{Binding ActualWidth, ElementName=canvas, Mode=OneWay}" Height="49" VerticalAlignment="Top" HorizontalAlignment="{Binding ElementName=canvas, Mode=OneWay}">
+        <Grid Margin="10,30,0,0" Width="82" Height="149" VerticalAlignment="Top" HorizontalAlignment="Left" ShowGridLines="True">
 
-            <Label Content="R:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="19" HorizontalContentAlignment="Left"/>
-            <Label Content="r:" HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top"/>
-            <Label Content="O:" HorizontalAlignment="Left" Margin="78,0,0,0" VerticalAlignment="Top" Width="24"/>
-            <Label Content="S:" HorizontalAlignment="Left" Margin="157,0,0,0" VerticalAlignment="Top" Width="24"/>
-            <Label Content="P:" HorizontalAlignment="Left" Margin="78,23,0,0" VerticalAlignment="Top" Width="24"/>
-            <Label Content="s:" HorizontalAlignment="Left" Margin="157,23,0,0" VerticalAlignment="Top" Width="24"/>
+            <Label Content="R:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="24"/>
+            <Label Content="r:" HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top" Width="24"/>
+            <Label Content="O:" HorizontalAlignment="Left" Margin="0,40,0,0" VerticalAlignment="Top" Width="24"/>
+            <Label Content="P:" HorizontalAlignment="Left" Margin="0,60,0,0" VerticalAlignment="Top" Width="24"/>
+            <Label Content="S:" HorizontalAlignment="Left" Margin="0,80,0,0" VerticalAlignment="Top" Width="24"/>
+            <Label Content="s:" HorizontalAlignment="Left" Margin="0,100,0,0" VerticalAlignment="Top" Width="24"/>
 
             <TextBox x:Name="txtBoxR" HorizontalAlignment="Left" Margin="20,4,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="50" TextChanged="txtBoxR_TextChanged"/>
-            <TextBox x:Name="txtBoxr" HorizontalAlignment="Left" Margin="20,27,0,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="50" TextChanged="txtBoxr_TextChanged_1"/>
-            <TextBox x:Name="txtBoxO" HorizontalAlignment="Left" Margin="102,4,0,0" TextWrapping="Wrap" Text="25" VerticalAlignment="Top" Width="50" TextChanged="txtBoxO_TextChanged"/>
-            <TextBox x:Name="txtBoxS" HorizontalAlignment="Left" Margin="181,4,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="50" TextChanged="txtBoxS_TextChanged"/>
-            <TextBox x:Name="txtBoxP" HorizontalAlignment="Left" Margin="102,27,0,0" TextWrapping="Wrap" Text="1000" VerticalAlignment="Top" Width="50" TextChanged="txtBoxP_TextChanged"/>
-            <TextBox x:Name="txtBoxs" HorizontalAlignment="Left" Margin="181,27,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="50" TextChanged="txtBoxs_TextChanged"/>
+            <TextBox x:Name="txtBoxr" HorizontalAlignment="Left" Margin="20,24,0,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="50" TextChanged="txtBoxr_TextChanged_1"/>
+            <TextBox x:Name="txtBoxO" HorizontalAlignment="Left" Margin="20,44,0,0" TextWrapping="Wrap" Text="25" VerticalAlignment="Top" Width="50" TextChanged="txtBoxO_TextChanged"/>
+            <TextBox x:Name="txtBoxS" HorizontalAlignment="Left" Margin="20,64,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="50" TextChanged="txtBoxS_TextChanged"/>
+            <TextBox x:Name="txtBoxP" HorizontalAlignment="Left" Margin="20,84,0,0" TextWrapping="Wrap" Text="1000" VerticalAlignment="Top" Width="50" TextChanged="txtBoxP_TextChanged"/>
+            <TextBox x:Name="txtBoxs" HorizontalAlignment="Left" Margin="20,104,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="50" TextChanged="txtBoxs_TextChanged"/>
         </Grid>
     </Grid>
 </Window>
