@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Spirograph"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="500" Width="450">
+    <Grid SizeChanged="Grid_SizeChanged">
+        <Canvas x:Name="canvas" Margin="30,30,30,80" Background="#FF8E8181" Width="{Binding ActualHeight, ElementName=canvas, Mode=OneWay}"/>
+
+        <Label Content="R:" HorizontalAlignment="Left" Margin="38,409,0,0" VerticalAlignment="Top" Width="19"/>
+        <Label Content="r:" HorizontalAlignment="Left" Margin="38,429,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtBoxR" HorizontalAlignment="Left" Margin="57,413,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="50" TextChanged="txtBoxR_TextChanged"/>
+        <TextBox x:Name="txtBoxr" HorizontalAlignment="Left" Margin="57,433,0,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="50" TextChanged="txtBoxr_TextChanged_1"/>
+        <Label Content="O:" HorizontalAlignment="Left" Margin="115,409,0,0" VerticalAlignment="Top" Width="24"/>
+        <Label Content="S:" HorizontalAlignment="Left" Margin="115,429,0,0" VerticalAlignment="Top" Width="24"/>
+        <TextBox x:Name="txtBoxO" HorizontalAlignment="Left" Margin="139,413,0,0" TextWrapping="Wrap" Text="25" VerticalAlignment="Top" Width="50" TextChanged="txtBoxO_TextChanged"/>
+        <TextBox x:Name="txtBoxS" HorizontalAlignment="Left" Margin="139,433,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="50" TextChanged="txtBoxS_TextChanged"/>
+        <Label Content="P:" HorizontalAlignment="Left" Margin="194,409,0,0" VerticalAlignment="Top" Width="24"/>
+        <TextBox x:Name="txtBoxP" HorizontalAlignment="Left" Margin="218,413,0,0" TextWrapping="Wrap" Text="10000" VerticalAlignment="Top" Width="50" TextChanged="txtBoxP_TextChanged"/>
 
     </Grid>
 </Window>
