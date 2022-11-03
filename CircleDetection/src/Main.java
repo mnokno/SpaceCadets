@@ -9,7 +9,9 @@ public class Main {
         System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
 
         System.out.println("Hello world!");
-        Mat img = Utilities.blur(Utilities.ToGrayScale(Utilities.LoadImg("testdata\\img4.jpg")));
+
+        //Mat img = Utilities.blur(Utilities.ToGrayScale(Utilities.LoadImg("testdata\\img4.jpg")));
+        Mat img = Utilities.ExtractEdges(Utilities.blur(Utilities.ToGrayScale(Utilities.LoadImg("testdata\\img1.jpg"))));
         HighGui.imshow("Image", img);
         HighGui.waitKey();
         System.exit(0);
