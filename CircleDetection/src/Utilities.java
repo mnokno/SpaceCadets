@@ -24,30 +24,68 @@ public final class Utilities {
         return blur(image, 5);
     }
 
-    public static Mat extractEdges(Mat image, float strength){
-        Mat gX = new Mat();
-        Mat gY = new Mat();
+    public static Mat extractEdges(Mat image, float strength, Polarity polarity){
 
-        Mat filterX = new Mat(3, 3, CvType.CV_32F);
-        Mat filterY = new Mat(3, 3, CvType.CV_32F);
-        filterX.put(0, 0, new float[] {-1 * strength, 0 * strength, 1 * strength , -2 * strength , 0 * strength, 2 * strength, -1 * strength, 0 * strength, 1 * strength});
-        filterY.put(0,0, new float[] {-1 * strength, -2 * strength, -1 * strength, 0 * strength, 0 * strength, 0 * strength, 1 * strength, 2 * strength, 1 * strength});
-        Imgproc.filter2D(image, gX, -1, filterX, new Point(-1, -1), 0, Core.BORDER_DEFAULT);
-        Imgproc.filter2D(image, gY, -1, filterY, new Point(-1, -1), 0, Core.BORDER_DEFAULT);
+        // positive polarity of edges
+        Mat gXp = new Mat();
+        Mat gYp = new Mat();
+        Mat filterXp = new Mat(3, 3, CvType.CV_32F);
+        Mat filterYp = new Mat(3, 3, CvType.CV_32F);
+        filterXp.put(0,0, new float[] {-1, 0, 1, -2 ,0, 2, -1, 0, 1});
+        filterYp.put(0,0, new float[] {-1, -2, -1, 0, 0, 0, 1, 2, 1});
+        Imgproc.filter2D(image, gXp, -1, filterXp, new Point(-1, -1), 0, Core.BORDER_DEFAULT);
+        Imgproc.filter2D(image, gYp, -1, filterYp, new Point(-1, -1), 0, Core.BORDER_DEFAULT);
 
+        // negative polarity of edges
+        Mat gXn = new Mat();
+        Mat gYn = new Mat();
+        Mat filterXn = new Mat(3, 3, CvType.CV_32F);
+        Mat filterYn = new Mat(3, 3, CvType.CV_32F);
+        filterXn.put(0,0, new float[] {1, 0, -1, 2, 0, -2, 1, 0, -1});
+        filterYn.put(0,0, new float[] {1, 2, 1, 0, 0, 0, -1, -2, -1});
+        Imgproc.filter2D(image, gXn, -1, filterXn, new Point(-1, -1), 0, Core.BORDER_DEFAULT);
+        Imgproc.filter2D(image, gYn, -1, filterYn, new Point(-1, -1), 0, Core.BORDER_DEFAULT);
+
+        // applies scale
+        if (strength != 1){
+            for (int x = 0; x < 3; x++){
+                for (int y = 0; y < 3; y++){
+                    filterXn.put(x, y, filterXn.get(x, y)[0] * strength);
+                    filterYn.put(x, y, filterYn.get(x, y)[0] * strength);
+                    filterXp.put(x, y, filterXp.get(x, y)[0] * strength);
+                    filterYp.put(x, y, filterYp.get(x, y)[0] * strength);
+                }
+            }
+        }
+
+        // extracts edges
         Mat res = Mat.zeros(image.size(), CvType.CV_8U);
         for (int x = 0; x < res.size(0); x++){
             for (int y = 0; y < res.size(1); y++){
-                int data = (int)Math.sqrt(gX.get(x, y)[0] * gX.get(x, y)[0] + gY.get(x, y)[0] * gY.get(x, y)[0]);
+                double ap = gXp.get(x, y)[0];
+                double bp = gYp.get(x, y)[0];
+                double an = gXn.get(x, y)[0];
+                double bn = gYn.get(x, y)[0];
+                int data;
+                if (polarity == Polarity.BOTH){
+                    data = (int)(Math.sqrt(ap * ap + bp * bp) + Math.sqrt(an * an + bn * bn));
+                }
+                else if (polarity == Polarity.POSITIVE){
+                    data = (int)(Math.sqrt(ap * ap + bp * bp));
+                }
+                else{
+                    data = (int)(Math.sqrt(an * an + bn * bn));
+                }
                 res.put(x, y, data);
             }
         }
 
+        // returns images with edges extracted
         return res;
     }
 
     public static Mat extractEdges(Mat image){
-        return extractEdges(image, 1);
+        return extractEdges(image, 1, Polarity.BOTH);
     }
 
     public static Mat threshold(Mat img){
