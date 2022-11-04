@@ -100,8 +100,22 @@ public final class Utilities {
     }
 
     public static Mat detectCircles(Mat image, Mat orgImg, int minSize, int maxSize){
+
+        // defines matrix used to accumulates votes
         float[][][] votes = new float[image.size(0)][image.size(1)][maxSize - minSize];
 
+        // scales the image so that a perfect circle will have a vote of 1
+        double divider = 255 * 360;
+        Mat scaledImage = Mat.zeros(image.size(), CvType.CV_32F);
+        for (int x = 0; x < image.size(0); x++){
+            for (int y = 0; y < image.size(1); y++){
+                scaledImage.put(x, y, image.get(x, y)[0] / divider);
+            }
+        }
+        //image = scaledImage;
+
+
+        // calculates the votes
         double radFrac = Math.PI / 180f;
         for (int r = 0; r < maxSize - minSize; r++){
             System.out.println(((1f / (maxSize - minSize)) * 100 * r) + "%");
@@ -125,11 +139,13 @@ public final class Utilities {
         for (int r = 0; r < maxSize - minSize; r++) {
             for (int x = 0; x < image.size(0); x++) {
                 for (int y = 0; y < image.size(1); y++) {
+
                     if (votes[x][y][r] > 40000){
                         System.out.println(x + " " + y);
                         Circle circle = new Circle(y, x, r + minSize, votes[x][y][r]);
                         circle.drawCircle(orgImg);
                     }
+
                     if (votes[x][y][r] > max){
 
                         max = votes[x][y][r];
@@ -137,12 +153,12 @@ public final class Utilities {
                         maxX = x;
                         maxY = y;
                     }
+
                 }
             }
         }
 
         Point center = new Point(maxY, maxX);
-        max = (max / 255f) / 360f;
         System.out.println(maxX + " " + maxY + " " + maxR + " " + max);
         Circle bestCandidate = new Circle(maxY, maxX, maxR, max);
         bestCandidate.drawCircle(orgImg);
