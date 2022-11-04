@@ -1,7 +1,10 @@
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
 import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 public class Main {
     public static void main(String[] args) {
@@ -11,7 +14,8 @@ public class Main {
         System.out.println("Hello world!");
 
         //Mat img = Utilities.blur(Utilities.ToGrayScale(Utilities.LoadImg("testdata\\img4.jpg")));
-        Mat img = Utilities.ExtractEdges(Utilities.blur(Utilities.ToGrayScale(Utilities.LoadImg("testdata\\img1.jpg"))));
+        Mat img = Utilities.extractEdges(Utilities.blur(Utilities.toGrayScale(Utilities.loadImg("testdata\\img9.jpg"))));
+        img = Utilities.detectCircles(img, 75, 90);
         HighGui.imshow("Image", img);
         HighGui.waitKey();
         System.exit(0);
