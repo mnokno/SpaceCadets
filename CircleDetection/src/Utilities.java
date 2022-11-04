@@ -47,6 +47,7 @@ public final class Utilities {
         Imgproc.filter2D(image, gYn, -1, filterYn, new Point(-1, -1), 0, Core.BORDER_DEFAULT);
 
         // applies scale
+        // it should not make any difference to the finale effect, but its there for validation
         if (strength != 1){
             for (int x = 0; x < 3; x++){
                 for (int y = 0; y < 3; y++){
@@ -88,10 +89,14 @@ public final class Utilities {
         return extractEdges(image, 1, Polarity.BOTH);
     }
 
-    public static Mat threshold(Mat img){
+    public static Mat threshold(Mat img, float thresh){
         Mat res = new Mat();
-        Imgproc.threshold(img, res, 150, 255, Imgproc.THRESH_TOZERO);
+        Imgproc.threshold(img, res, thresh * 255, 255, Imgproc.THRESH_TOZERO);
         return res;
+    }
+
+    public static Mat threshold(Mat img){
+        return threshold(img, 150f/255f);
     }
 
     public static Mat detectCircles(Mat image, Mat orgImg, int minSize, int maxSize){

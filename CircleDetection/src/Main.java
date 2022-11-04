@@ -13,11 +13,11 @@ public class Main {
 
         System.out.println("Hello world!");
 
-        Mat original = Utilities.loadImg("testdata\\img1.jpg");
+        Mat original = Utilities.loadImg("testdata\\img19.jpg");
         Mat img = Utilities.toGrayScale(original);
         img = Utilities.blur(img, 3);
         img = Utilities.extractEdges(img);
-        img = Utilities.threshold(img);
+        img = Utilities.threshold(img, .5f);
         //img = Utilities.detectCircles(img, original, 10, 50);
 
         HighGui.imshow("Image", img);
