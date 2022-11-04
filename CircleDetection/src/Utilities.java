@@ -1,5 +1,4 @@
 import org.opencv.core.*;
-import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
@@ -15,10 +14,14 @@ public final class Utilities {
         return res;
     }
 
-    public static Mat blur(Mat image){
+    public static Mat blur(Mat image, int strength){
         Mat res = new Mat();
-        Imgproc.GaussianBlur(image, res, new Size(5, 5), 0);
+        Imgproc.GaussianBlur(image, res, new Size(strength, strength), 0);
         return res;
+    }
+
+    public static Mat blur(Mat image){
+        return blur(image, 5);
     }
 
     public static Mat extractEdges(Mat image, float strength){
@@ -47,12 +50,18 @@ public final class Utilities {
         return extractEdges(image, 1);
     }
 
-    public static Mat detectCircles(Mat image, int minSize, int maxSize){
+    public static Mat threshold(Mat img){
+        Mat res = new Mat();
+        Imgproc.threshold(img, res, 150, 255, Imgproc.THRESH_TOZERO);
+        return res;
+    }
+
+    public static Mat detectCircles(Mat image, Mat orgImg, int minSize, int maxSize){
         float[][][] votes = new float[image.size(0)][image.size(1)][maxSize - minSize];
 
         double radFrac = Math.PI / 180f;
         for (int r = 0; r < maxSize - minSize; r++){
-            System.out.println(r);
+            System.out.println(((1f / (maxSize - minSize)) * 100 * r) + "%");
             for (int x = 0; x < image.size(0); x++){
                 for (int y = 0; y < image.size(1); y++){
                     for (int theta = 0; theta < 360; theta++){
@@ -73,7 +82,13 @@ public final class Utilities {
         for (int r = 0; r < maxSize - minSize; r++) {
             for (int x = 0; x < image.size(0); x++) {
                 for (int y = 0; y < image.size(1); y++) {
+                    if (votes[x][y][r] > 40000){
+                        System.out.println(x + " " + y);
+                        Circle circle = new Circle(y, x, r + minSize, votes[x][y][r]);
+                        circle.drawCircle(orgImg);
+                    }
                     if (votes[x][y][r] > max){
+
                         max = votes[x][y][r];
                         maxR = r;
                         maxX = x;
@@ -83,12 +98,11 @@ public final class Utilities {
             }
         }
 
-        Point center = new Point(maxX, maxY);
+        Point center = new Point(maxY, maxX);
+        max = (max / 255f) / 360f;
         System.out.println(maxX + " " + maxY + " " + maxR + " " + max);
-        // circle centers
-        Imgproc.circle(image, center, 1, new Scalar(255,255,255), 3, 8, 0 );
-        // circle outline
-        Imgproc.circle(image, center, maxR + minSize, new Scalar(255,0,255), 3, 8, 0 );
-        return image;
+        Circle bestCandidate = new Circle(maxY, maxX, maxR, max);
+        bestCandidate.drawCircle(orgImg);
+        return orgImg;
     }
 }

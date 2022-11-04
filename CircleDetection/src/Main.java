@@ -13,9 +13,13 @@ public class Main {
 
         System.out.println("Hello world!");
 
-        //Mat img = Utilities.blur(Utilities.ToGrayScale(Utilities.LoadImg("testdata\\img4.jpg")));
-        Mat img = Utilities.extractEdges(Utilities.blur(Utilities.toGrayScale(Utilities.loadImg("testdata\\img9.jpg"))));
-        img = Utilities.detectCircles(img, 75, 90);
+        Mat original = Utilities.loadImg("testdata\\img12.jpg");
+        Mat img = Utilities.toGrayScale(original);
+        img = Utilities.blur(img, 3);
+        img = Utilities.extractEdges(img);
+        img = Utilities.threshold(img);
+        img = Utilities.detectCircles(img, original, 10, 50);
+
         HighGui.imshow("Image", img);
         HighGui.waitKey();
         System.exit(0);
