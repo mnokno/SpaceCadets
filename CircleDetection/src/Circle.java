@@ -29,14 +29,18 @@ public class Circle{
         return r;
     }
 
+    public float getScore(){
+        return score;
+    }
+
     public void drawCircle(Mat img){
         // circle centers
         Imgproc.circle(img, new Point(x,y), 1, new Scalar(255,255,255), 3, 8, 0 );
         // circle outline
-        Imgproc.circle(img, new Point(x,y), r, new Scalar(255,0,255), 3, 8, 0 );
+        Imgproc.circle(img, new Point(x,y), r, new Scalar(50,255,50), 3, 8, 0 );
     }
 
     public boolean minDistance(Circle other, int minDist){
-        return ((Math.sqrt(this.x + this.y) + this.r) - (Math.sqrt(other.x + other.y) + other.r)) > minDist;
+        return (Math.sqrt((this.x - other.x) * (this.x - other.x) + (this.y - other.y) * (this.y - other.y)) + Math.abs(this.r - other.r)) > minDist;
     }
 }

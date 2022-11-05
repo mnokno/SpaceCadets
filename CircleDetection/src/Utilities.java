@@ -2,6 +2,8 @@ import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
+import java.util.ArrayList;
+
 public final class Utilities {
 
     public static Mat loadImg(String dir){
@@ -47,7 +49,7 @@ public final class Utilities {
         Imgproc.filter2D(image, gYn, -1, filterYn, new Point(-1, -1), 0, Core.BORDER_DEFAULT);
 
         // applies scale
-        // it should not make any difference to the finale effect, but its there for validation
+        // it should not make any difference to the finale effect, but it's there for validation
         if (strength != 1){
             for (int x = 0; x < 3; x++){
                 for (int y = 0; y < 3; y++){
@@ -99,21 +101,12 @@ public final class Utilities {
         return threshold(img, 150f/255f);
     }
 
-    public static Mat detectCircles(Mat image, Mat orgImg, int minSize, int maxSize){
+    public static Circle[] detectCircles(Mat image, int minSize, int maxSize, int minDistance, float confidenceThreshold, float offScreenScore){
 
         // defines matrix used to accumulates votes
         float[][][] votes = new float[image.size(0)][image.size(1)][maxSize - minSize];
-
-        // scales the image so that a perfect circle will have a vote of 1
-        double divider = 255 * 360;
-        Mat scaledImage = Mat.zeros(image.size(), CvType.CV_32F);
-        for (int x = 0; x < image.size(0); x++){
-            for (int y = 0; y < image.size(1); y++){
-                scaledImage.put(x, y, image.get(x, y)[0] / divider);
-            }
-        }
-        //image = scaledImage;
-
+        // defines list used to accumulate circles
+        ArrayList<Circle> circles = new ArrayList<Circle>();
 
         // calculates the votes
         double radFrac = Math.PI / 180f;
@@ -127,41 +120,56 @@ public final class Utilities {
                         if (a < image.size(0) && b < image.size(1) && a >= 0 && b >= 0){
                             votes[x][y][r] += image.get(a, b)[0];
                         }
+                        else{
+                            votes[x][y][r] += offScreenScore;
+                        }
                     }
                 }
             }
         }
 
-        float max = Float.MIN_VALUE;
-        int maxR = -1;
-        int maxX = -1;
-        int maxY = -1;
+        // finds circle that meet the circle confidence threshold
+        float confidenceLevel = 360 * 255 * confidenceThreshold;
         for (int r = 0; r < maxSize - minSize; r++) {
             for (int x = 0; x < image.size(0); x++) {
                 for (int y = 0; y < image.size(1); y++) {
-
-                    if (votes[x][y][r] > 40000){
-                        System.out.println(x + " " + y);
-                        Circle circle = new Circle(y, x, r + minSize, votes[x][y][r]);
-                        circle.drawCircle(orgImg);
+                    if (votes[x][y][r] > confidenceLevel){
+                        circles.add(new Circle(y, x, r + minSize, votes[x][y][r]));
                     }
-
-                    if (votes[x][y][r] > max){
-
-                        max = votes[x][y][r];
-                        maxR = r;
-                        maxX = x;
-                        maxY = y;
-                    }
-
                 }
             }
         }
 
-        Point center = new Point(maxY, maxX);
-        System.out.println(maxX + " " + maxY + " " + maxR + " " + max);
-        Circle bestCandidate = new Circle(maxY, maxX, maxR, max);
-        bestCandidate.drawCircle(orgImg);
-        return orgImg;
+        // removes circles that are to close together
+        System.out.println(circles.size());
+        for (int i = 0; i < circles.size(); i++){
+            for (int j = i + 1; j < circles.size(); j++){
+                if (!circles.get(i).minDistance(circles.get(j), minDistance)){
+                   if (circles.get(i).getScore() > circles.get(j).getScore()){
+                       circles.remove(j);
+                       j--;
+                   }
+                   else{
+                       circles.remove(i);
+                       i--;
+                       break;
+                   }
+                }
+            }
+        }
+        System.out.println(circles.size());
+
+        // return array of possible circles
+        return circles.toArray(new Circle[]{});
+    }
+
+    public static Circle[] detectCircles(Mat image, int minSize, int maxSize){
+        return detectCircles(image, minSize, maxSize, 10, 0.75f, 100);
+    }
+
+    public static void drawCirclesOnImage(Mat image, Circle[] circles){
+        for (Circle circle: circles) {
+            circle.drawCircle(image);
+        }
     }
 }

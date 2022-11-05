@@ -1,26 +1,25 @@
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Scalar;
 import org.opencv.highgui.HighGui;
-import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
 
 public class Main {
     public static void main(String[] args) {
-        //Loading the OpenCV core library
+        // loading the OpenCV core library
         System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
 
-        System.out.println("Hello world!");
-
+        // extracts circles
         Mat original = Utilities.loadImg("testdata\\img1.jpg");
         Mat img = Utilities.toGrayScale(original);
         img = Utilities.blur(img, 3);
         img = Utilities.extractEdges(img);
-        img = Utilities.threshold(img, .6f);
-        img = Utilities.detectCircles(img, original, 10, 20);
+        img = Utilities.threshold(img, .5f);
+        Circle[] circles = Utilities.detectCircles(img, 10, 40, 20, 0.60f, 100);
+        //Circle[] circles = Utilities.detectCircles(img, 20, 80, 20, 0.60f, 0);
+        //Circle[] circles = Utilities.detectCircles(img, 50, 80, 10, 0.60f, 0);
+        Utilities.drawCirclesOnImage(original, circles);
 
-        HighGui.imshow("Image", img);
+        // shows predicted circles cast onto the original images
+        HighGui.imshow("Image", original);
         HighGui.waitKey();
         System.exit(0);
     }
