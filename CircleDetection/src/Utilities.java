@@ -119,7 +119,20 @@ public final class Utilities {
         return threshold(img, 150f/255f);
     }
 
-    public static Circle[] detectCircles(Mat image, int minSize, int maxSize, int minDistance, float confidenceThreshold, float offScreenScore){
+    public static Circle[] detectCircles(Mat image, float minSizeRelative, float maxSizeRelative, float minDistanceRelative, float confidenceThreshold, float offScreenScore){
+        // caps relative sizes between 0 and 1
+        minSizeRelative = Math.min(1, Math.abs(minSizeRelative));
+        maxSizeRelative = Math.min(1, Math.abs(maxSizeRelative));
+        minDistanceRelative = Math.min(1, Math.abs(minDistanceRelative));
+
+        // converts from relative scape to relative
+        int minSize = (int)(Math.max(image.size(0), image.size(1)) * minSizeRelative);
+        int maxSize = (int)(Math.max(image.size(0), image.size(1)) * maxSizeRelative);
+        int minDistance = (int)(Math.max(image.size(0), image.size(1)) * minDistanceRelative);
+
+        System.out.println(minSize);
+        System.out.println(maxSize);
+        System.out.println(minDistance);
 
         // defines matrix used to accumulates votes
         float[][][] votes = new float[image.size(0)][image.size(1)][maxSize - minSize];
@@ -181,10 +194,6 @@ public final class Utilities {
         return circles.toArray(new Circle[]{});
     }
 
-    public static Circle[] detectCircles(Mat image, int minSize, int maxSize){
-        return detectCircles(image, minSize, maxSize, 10, 0.75f, 100);
-    }
-
     public static void drawCirclesOnImage(Mat image, Circle[] circles){
         for (Circle circle: circles) {
             circle.drawCircle(image);
@@ -193,7 +202,6 @@ public final class Utilities {
 
     public static void drawCirclesOnImage(Mat image, Circle[] circles, double resizeFactor){
         for (Circle circle: circles) {
-            System.out.println(resizeFactor);
             circle.resize(1d / resizeFactor);
             circle.drawCircle(image);
         }
