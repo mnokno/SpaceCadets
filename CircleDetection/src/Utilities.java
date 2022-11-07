@@ -26,6 +26,19 @@ public final class Utilities {
         return blur(image, 5);
     }
 
+    public static Mat resize(Mat image, int width, int height){
+        Mat res = new Mat();
+        Imgproc.resize(image, res, new Size(width, height));
+        return res;
+    }
+
+    public static Mat resize(Mat image, int targetPixels){
+        Mat res = new Mat();
+        double requiredScale = Math.sqrt(targetPixels / (float)(image.size(0) * image.size(1)));
+        Imgproc.resize(image, res, new Size(image.size(1) * requiredScale , image.size(0) * requiredScale));
+        return res;
+    }
+
     public static Mat extractEdges(Mat image, float strength, Polarity polarity){
 
         // positive polarity of edges
