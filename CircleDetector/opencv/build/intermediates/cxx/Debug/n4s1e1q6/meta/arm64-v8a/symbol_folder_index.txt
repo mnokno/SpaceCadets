@@ -1,0 +1,1 @@
+C:\Users\kubaa\Documents\GitHub\SpaceCadets\CircleDetector\openCV\build\intermediates\cxx\Debug\n4s1e1q6\obj\arm64-v8a

@@ -7,9 +7,9 @@ import org.opencv.imgproc.Imgproc;
 
 public class Circle{
 
-    private final int x;
-    private final int y;
-    private final int r;
+    private int x;
+    private int y;
+    private int r;
     private final float score;
 
     public Circle(int x, int y, int r, float score){
@@ -44,5 +44,11 @@ public class Circle{
 
     public boolean minDistance(Circle other, int minDist){
         return (Math.sqrt((this.x - other.x) * (this.x - other.x) + (this.y - other.y) * (this.y - other.y)) + Math.abs(this.r - other.r)) > minDist;
+    }
+
+    public void resize(double scale){
+        x = (int)(x * scale);
+        y = (int)(y * scale);
+        r = (int)(r * scale);
     }
 }

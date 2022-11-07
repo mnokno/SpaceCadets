@@ -6,19 +6,22 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.ui.AppBarConfiguration
 import circledetector.app.databinding.ActivityMainBinding
-import java.util.jar.Manifest
+import circledetector.app.detector.Circle
+import circledetector.app.detector.Utilities
+import org.opencv.android.OpenCVLoader
+import org.opencv.android.Utils
+import org.opencv.core.Mat
+import java.lang.Exception
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +34,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if(OpenCVLoader.initDebug()) Log.d("LOADED", "successful")
+        else Log.d("LOADED", "fail")
+
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -79,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK){
             if (requestCode == CAMERA_REQUEST_CODE){
                 val thumbNail: Bitmap = data!!.extras!!.get("data") as Bitmap
-                binding.imageView.setImageBitmap(thumbNail);
+                binding.imageView.setImageBitmap(processImage(thumbNail))
             }
         }
     }
@@ -98,5 +104,25 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun processImage(bitmap: Bitmap): Bitmap{
+
+        var original:Mat = Mat()
+        Utils.bitmapToMat(bitmap, original);
+
+        var img:Mat = Utilities.toGrayScale(original)
+        img = Utilities.blur(img, 3)
+        img = Utilities.extractEdges(img)
+        img = Utilities.threshold(img, .5f)
+        img = Utilities.resize(img, 10000)
+        println(img.size(0).toString() + " " + img.size(1))
+        val circles:Array<Circle> = Utilities.detectCircles(img, 0.05f, 0.175f, 0.0727f, 0.60f, 100f)
+        Utilities.drawCirclesOnImage(original, circles, Utilities.getResizeFactor(original, 10000))
+
+        var a: Bitmap = bitmap
+        Utils.matToBitmap(original, a)
+
+        return bitmap
     }
 }
