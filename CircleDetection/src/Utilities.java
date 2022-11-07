@@ -32,6 +32,7 @@ public final class Utilities {
         return res;
     }
 
+
     public static Mat resize(Mat image, int targetPixels){
         Mat res = new Mat();
         double requiredScale = Math.sqrt(targetPixels / (float)(image.size(0) * image.size(1)));
@@ -98,6 +99,10 @@ public final class Utilities {
 
         // returns images with edges extracted
         return res;
+    }
+
+    public static double getResizeFactor(Mat image, int targetPixels){
+        return Math.sqrt(targetPixels / (float)(image.size(0) * image.size(1)));
     }
 
     public static Mat extractEdges(Mat image){
@@ -182,6 +187,14 @@ public final class Utilities {
 
     public static void drawCirclesOnImage(Mat image, Circle[] circles){
         for (Circle circle: circles) {
+            circle.drawCircle(image);
+        }
+    }
+
+    public static void drawCirclesOnImage(Mat image, Circle[] circles, double resizeFactor){
+        for (Circle circle: circles) {
+            System.out.println(resizeFactor);
+            circle.resize(1d / resizeFactor);
             circle.drawCircle(image);
         }
     }

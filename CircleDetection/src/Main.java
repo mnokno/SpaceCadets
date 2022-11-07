@@ -18,8 +18,7 @@ public class Main {
         Circle[] circles = Utilities.detectCircles(img, 10, 40, 20, 0.60f, 100);
         //Circle[] circles = Utilities.detectCircles(img, 20, 80, 20, 0.60f, 0);
         //Circle[] circles = Utilities.detectCircles(img, 50, 80, 10, 0.60f, 0);
-        original = Utilities.resize(original, 20000);
-        Utilities.drawCirclesOnImage(original, circles);
+        Utilities.drawCirclesOnImage(original, circles, Utilities.getResizeFactor(original, 20000));
 
         // shows predicted circles cast onto the original images
         HighGui.imshow("Image", original);
