@@ -62,7 +62,8 @@
                 <com.google.android.material.slider.Slider
                     android:id="@+id/blur"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:value="0" />
 
             </LinearLayout>
 
@@ -90,7 +91,8 @@
                 <com.google.android.material.slider.Slider
                     android:id="@+id/threshold"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:value="0.3" />
 
             </LinearLayout>
 
@@ -118,7 +120,8 @@
                 <com.google.android.material.slider.Slider
                     android:id="@+id/min_size"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:value="0.2" />
 
             </LinearLayout>
 
@@ -146,7 +149,8 @@
                 <com.google.android.material.slider.Slider
                     android:id="@+id/max_size"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:value="0.4" />
 
             </LinearLayout>
 
@@ -174,7 +178,8 @@
                 <com.google.android.material.slider.Slider
                     android:id="@+id/min_distance"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:value="0.1" />
 
             </LinearLayout>
 
@@ -203,7 +208,8 @@
                 <com.google.android.material.slider.Slider
                     android:id="@+id/confidence"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:value="0.6" />
 
             </LinearLayout>
 
@@ -231,7 +237,37 @@
                 <com.google.android.material.slider.Slider
                     android:id="@+id/off_screen_score"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:value="0.5" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/resolution_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:layout_width="134dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="textPersonName"
+                    android:text="Resolution:" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/resolution"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:value="0" />
 
             </LinearLayout>
 

@@ -27,6 +27,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var originalImage: Bitmap
+    private var controlParameters: ControlParameters? = null
+    private lateinit var votes:Array<Array<FloatArray>>
+    private lateinit var circles:ArrayList<Circle>
+    private lateinit var coachLImage: Mat
 
     companion object{
         private const val CAMERA_PERMISSION_CODE = 1
@@ -56,6 +61,34 @@ class MainActivity : AppCompatActivity() {
                     CAMERA_PERMISSION_CODE)
             }
         }
+        binding.fab2.setOnClickListener {
+            val newControlParameters: ControlParameters =  readInputs()
+            if (newControlParameters.doesRequireFullReprocessing(controlParameters)){
+                controlParameters = newControlParameters
+                val imageWithDetectedCircles: Bitmap = hardImageProcessing(originalImage)
+                showImage(imageWithDetectedCircles)
+                Log.d("Calc Mode", "Hard")
+            }
+            else{
+                controlParameters = newControlParameters
+                val imageWithDetectedCircles: Bitmap = softImageProcessing(originalImage)
+                showImage(imageWithDetectedCircles)
+                Log.d("Calc Mode", "Soft")
+            }
+        }
+    }
+
+    private fun readInputs(): ControlParameters{
+        return ControlParameters(
+            binding.blur.value,
+            binding.threshold.value,
+            binding.minSize.value,
+            binding.maxSize.value,
+            binding.minDistance.value,
+            binding.confidence.value,
+            binding.offScreenScore.value,
+            binding.resolution.value
+        )
     }
 
     override fun onRequestPermissionsResult(
@@ -84,8 +117,8 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK){
             if (requestCode == CAMERA_REQUEST_CODE){
-                val thumbNail: Bitmap = data!!.extras!!.get("data") as Bitmap
-                binding.imageView.setImageBitmap(processImage(thumbNail))
+                originalImage = data!!.extras!!.get("data") as Bitmap
+                showImage(originalImage)
             }
         }
     }
@@ -106,24 +139,88 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun processImage(bitmap: Bitmap): Bitmap{
+    private fun showImage(image: Bitmap){
+        binding.imageView.setImageBitmap(image)
+    }
+
+    private fun hardImageProcessing(bitmap: Bitmap): Bitmap{
+        // converts bitmap to mat
         val original:Mat = Mat()
         Utils.bitmapToMat(bitmap, original);
 
+        // coverts the image to grayscale
         var img:Mat = Utilities.toGrayScale(original)
-        img = Utilities.resize(img, 10000)
-        // resizing the image act as a blur so the image should not be
-        // blurred again unless increase in blurriness is desired
-        //img = Utilities.blur(img, 3)
+
+        // resizes the image to decrease precessing time
+        val resolution: Int = (10000 + 40000 * controlParameters!!.resolutions).toInt()
+        img = Utilities.resize(img, resolution)
+
+        // blurs the image
+        val blurStrength:Int = (10 * controlParameters!!.blurStrength).toInt();
+        if (blurStrength > 0){
+            img = Utilities.blur(img, blurStrength * 3)
+        }
+
+        // extracts edges from the image
         img = Utilities.extractEdges(img)
-        img = Utilities.threshold(img, .3f)
-        println(img.size(0).toString() + " " + img.size(1))
-        val circles:Array<Circle> = Utilities.detectCircles(img, 0.05f, 0.175f, 0.0727f, 0.60f, 100f)
-        Utilities.drawCirclesOnImage(original, circles, Utilities.getResizeFactor(original, 10000))
 
-        val a: Bitmap = bitmap
-        Utils.matToBitmap(original, a)
+        // applies threshold
+        img = Utilities.threshold(img, controlParameters!!.threshold)
 
-        return bitmap
+        // calculates votes
+        votes = Utilities.calculateVotes(img,
+            controlParameters!!.minSize / 2f,
+            controlParameters!!.maxSize / 2f,
+            200 * controlParameters!!.offScree)
+
+        // extracts circles
+        circles = Utilities.extractCircles(img, votes,
+            controlParameters!!.minSize / 2f,
+            controlParameters!!.maxSize / 2f,
+            controlParameters!!.confidence)
+
+        // applies minDistance between circles
+        coachLImage = img
+        val localCircle: ArrayList<Circle> = circles.map{ it.copy() } as ArrayList<Circle>
+        Utilities.applyMinCircleDistance(localCircle, img, controlParameters!!.minDistance)
+
+        // draws the circles on the original image
+        Utilities.drawCirclesOnImage(original, localCircle.toArray(arrayOf<Circle>()),
+            Utilities.getResizeFactor(original, resolution))
+
+        // converts back from mat to bitmap
+        val resBitmap: Bitmap = bitmap.copy(bitmap.config, true)
+        Utils.matToBitmap(original, resBitmap)
+
+        // returns a bitmap with detected circles drawn on it
+        return resBitmap
+    }
+
+    private fun softImageProcessing(bitmap: Bitmap): Bitmap{
+        // converts bitmap to mat
+        val original:Mat = Mat()
+        Utils.bitmapToMat(bitmap, original);
+
+        // applies minDistance between circles
+        val localCircle: ArrayList<Circle> = circles.map{ it.copy() } as ArrayList<Circle>
+        Utilities.applyMinCircleDistance(localCircle, coachLImage, controlParameters!!.minDistance)
+
+        // extracts circles
+        circles = Utilities.extractCircles(coachLImage, votes,
+            controlParameters!!.minSize / 2f,
+            controlParameters!!.maxSize / 2f,
+            controlParameters!!.confidence)
+
+        // draws the circles on the original image
+        val resolution: Int = (10000 + 40000 * controlParameters!!.resolutions).toInt()
+        Utilities.drawCirclesOnImage(original, localCircle.toArray(arrayOf<Circle>()),
+            Utilities.getResizeFactor(original, resolution))
+
+        // converts back from mat to bitmap
+        val resBitmap: Bitmap = bitmap.copy(bitmap.config, true)
+        Utils.matToBitmap(original, resBitmap)
+
+        // returns a bitmap with detected circles drawn on it
+        return resBitmap
     }
 }

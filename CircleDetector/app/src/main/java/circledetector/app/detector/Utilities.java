@@ -1,5 +1,7 @@
 package circledetector.app.detector;
 
+import androidx.annotation.NonNull;
+
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
@@ -122,36 +124,30 @@ public final class Utilities {
     }
 
     public static Circle[] detectCircles(Mat image, float minSizeRelative, float maxSizeRelative, float minDistanceRelative, float confidenceThreshold, float offScreenScore){
-        // caps relative sizes between 0 and 1
-        minSizeRelative = Math.min(1, Math.abs(minSizeRelative));
-        maxSizeRelative = Math.min(1, Math.abs(maxSizeRelative));
-        minDistanceRelative = Math.min(1, Math.abs(minDistanceRelative));
-
-        // converts from relative scape to relative
-        int minSize = (int)(Math.max(image.size(0), image.size(1)) * minSizeRelative);
-        int maxSize = (int)(Math.max(image.size(0), image.size(1)) * maxSizeRelative);
-        int minDistance = (int)(Math.max(image.size(0), image.size(1)) * minDistanceRelative);
-
-        System.out.println(minSize);
-        System.out.println(maxSize);
-        System.out.println(minDistance);
 
         // calculates the votes
-        float[][][] votes = calculateVotes(image, minSize, maxSize, offScreenScore);
+        float[][][] votes = calculateVotes(image, minSizeRelative, maxSizeRelative, offScreenScore);
 
         // finds circle that meet the circle confidence threshold
-        ArrayList<Circle> circles = extractCircles(image, votes, minSize, maxSize, confidenceThreshold);
+        ArrayList<Circle> circles = extractCircles(image, votes, minSizeRelative, maxSizeRelative, confidenceThreshold);
 
         // removes circles that are to close together
         System.out.println(circles.size());
-        applyMinCircleDistance(circles, minDistance);
+        applyMinCircleDistance(circles, image, minDistanceRelative);
         System.out.println(circles.size());
 
         // return array of possible circles
         return circles.toArray(new Circle[]{});
     }
 
-    public static float[][][] calculateVotes(Mat image, int minSize, int maxSize, float offScreenScore){
+    public static float[][][] calculateVotes(Mat image, float minSizeRelative, float maxSizeRelative, float offScreenScore){
+        // caps relative sizes between 0 and 1
+        minSizeRelative = Math.min(1, Math.abs(minSizeRelative));
+        maxSizeRelative = Math.min(1, Math.abs(maxSizeRelative));
+        // converts from relative scape to relative
+        int minSize = (int)(Math.max(image.size(0), image.size(1)) * minSizeRelative);
+        int maxSize = (int)(Math.max(image.size(0), image.size(1)) * maxSizeRelative);
+
         // defines matrix used to accumulates votes
         float[][][] votes = new float[image.size(0)][image.size(1)][maxSize - minSize];
 
@@ -177,7 +173,14 @@ public final class Utilities {
         return votes;
     }
 
-    public static ArrayList<Circle> extractCircles(Mat image, float[][][] votes, int minSize, int maxSize, float confidenceThreshold){
+    public static ArrayList<Circle> extractCircles(Mat image, float[][][] votes, float minSizeRelative, float maxSizeRelative, float confidenceThreshold){
+        // caps relative sizes between 0 and 1
+        minSizeRelative = Math.min(1, Math.abs(minSizeRelative));
+        maxSizeRelative = Math.min(1, Math.abs(maxSizeRelative));
+        // converts from relative scape to relative
+        int minSize = (int)(Math.max(image.size(0), image.size(1)) * minSizeRelative);
+        int maxSize = (int)(Math.max(image.size(0), image.size(1)) * maxSizeRelative);
+
         // defines list used to accumulate circles
         ArrayList<Circle> circles = new ArrayList<Circle>();
 
@@ -195,7 +198,12 @@ public final class Utilities {
         return circles;
     }
 
-    public static void applyMinCircleDistance(ArrayList<Circle> circles, int minDistance){
+    public static void applyMinCircleDistance(ArrayList<Circle> circles, Mat image, float minDistanceRelative){
+        // caps relative sizes between 0 and 1
+        minDistanceRelative = Math.min(1, Math.abs(minDistanceRelative));
+        // converts from relative scape to relative
+        int minDistance = (int)(Math.max(image.size(0), image.size(1)) * minDistanceRelative);
+
         for (int i = 0; i < circles.size(); i++){
             for (int j = i + 1; j < circles.size(); j++){
                 if (!circles.get(i).minDistance(circles.get(j), minDistance)){

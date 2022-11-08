@@ -51,4 +51,8 @@ public class Circle{
         y = (int)(y * scale);
         r = (int)(r * scale);
     }
+
+    public Circle copy() {
+        return new Circle(x, y, r, score);
+    }
 }
