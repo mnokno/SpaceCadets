@@ -134,12 +134,25 @@ public final class Utilities {
         System.out.println(maxSize);
         System.out.println(minDistance);
 
+        // calculates the votes
+        float[][][] votes = calculateVotes(image, minSize, maxSize, offScreenScore);
+
+        // finds circle that meet the circle confidence threshold
+        ArrayList<Circle> circles = extractCircles(image, votes, minSize, maxSize, confidenceThreshold);
+
+        // removes circles that are to close together
+        System.out.println(circles.size());
+        applyMinCircleDistance(circles, minDistance);
+        System.out.println(circles.size());
+
+        // return array of possible circles
+        return circles.toArray(new Circle[]{});
+    }
+
+    public static float[][][] calculateVotes(Mat image, int minSize, int maxSize, float offScreenScore){
         // defines matrix used to accumulates votes
         float[][][] votes = new float[image.size(0)][image.size(1)][maxSize - minSize];
-        // defines list used to accumulate circles
-        ArrayList<Circle> circles = new ArrayList<Circle>();
 
-        // calculates the votes
         double radFrac = Math.PI / 180f;
         for (int r = 0; r < maxSize - minSize; r++){
             System.out.println(((1f / (maxSize - minSize)) * 100 * r) + "%");
@@ -159,7 +172,13 @@ public final class Utilities {
             }
         }
 
-        // finds circle that meet the circle confidence threshold
+        return votes;
+    }
+
+    public static ArrayList<Circle> extractCircles(Mat image, float[][][] votes, int minSize, int maxSize, float confidenceThreshold){
+        // defines list used to accumulate circles
+        ArrayList<Circle> circles = new ArrayList<Circle>();
+
         float confidenceLevel = 360 * 255 * confidenceThreshold;
         for (int r = 0; r < maxSize - minSize; r++) {
             for (int x = 0; x < image.size(0); x++) {
@@ -171,27 +190,25 @@ public final class Utilities {
             }
         }
 
-        // removes circles that are to close together
-        System.out.println(circles.size());
+        return circles;
+    }
+
+    public static void applyMinCircleDistance(ArrayList<Circle> circles, int minDistance){
         for (int i = 0; i < circles.size(); i++){
             for (int j = i + 1; j < circles.size(); j++){
                 if (!circles.get(i).minDistance(circles.get(j), minDistance)){
-                   if (circles.get(i).getScore() > circles.get(j).getScore()){
-                       circles.remove(j);
-                       j--;
-                   }
-                   else{
-                       circles.remove(i);
-                       i--;
-                       break;
-                   }
+                    if (circles.get(i).getScore() > circles.get(j).getScore()){
+                        circles.remove(j);
+                        j--;
+                    }
+                    else{
+                        circles.remove(i);
+                        i--;
+                        break;
+                    }
                 }
             }
         }
-        System.out.println(circles.size());
-
-        // return array of possible circles
-        return circles.toArray(new Circle[]{});
     }
 
     public static void drawCirclesOnImage(Mat image, Circle[] circles){
