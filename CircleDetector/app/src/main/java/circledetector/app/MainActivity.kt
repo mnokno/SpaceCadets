@@ -107,20 +107,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun processImage(bitmap: Bitmap): Bitmap{
-
-        var original:Mat = Mat()
+        val original:Mat = Mat()
         Utils.bitmapToMat(bitmap, original);
 
         var img:Mat = Utilities.toGrayScale(original)
-        img = Utilities.blur(img, 3)
-        img = Utilities.extractEdges(img)
-        img = Utilities.threshold(img, .5f)
         img = Utilities.resize(img, 10000)
+        // resizing the image act as a blur so the image should not be
+        // blurred again unless increase in blurriness is desired
+        //img = Utilities.blur(img, 3)
+        img = Utilities.extractEdges(img)
+        img = Utilities.threshold(img, .3f)
         println(img.size(0).toString() + " " + img.size(1))
         val circles:Array<Circle> = Utilities.detectCircles(img, 0.05f, 0.175f, 0.0727f, 0.60f, 100f)
         Utilities.drawCirclesOnImage(original, circles, Utilities.getResizeFactor(original, 10000))
 
-        var a: Bitmap = bitmap
+        val a: Bitmap = bitmap
         Utils.matToBitmap(original, a)
 
         return bitmap
